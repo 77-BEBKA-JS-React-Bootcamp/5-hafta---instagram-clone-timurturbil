@@ -1,35 +1,26 @@
-
-import './App.scss';
-import { useState } from 'react';
-const App = () => {
-  const [temperature, setTemperature] = useState(0.0);
-  const [name, setName] = useState("madrid");
-  const [air, setAir] = useState("Clear")
-  fetch(`http://api.weatherapi.com/v1/forecast.json?key=b5d717f75dcc4256bb7191833211103&q=${name}&days=7`)
-    .then(response => response.json())
-    .then(data => {
-      setTemperature(data.current.temp_c);
-      setAir(data.current.condition.icon)
-    }).catch(function () {
-      console.log("error")
-    });
-  const handleChange = (input) => {
-    setName(input.target.value)
-  }
+import Dashboard from "./component/Dashboard/DashBoard";
+import "./styles.scss";
+import PhotoPage from './component/PhotoPage/PhotoPage';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  withRouter
+} from "react-router-dom";
+export default function App() {
   return (
-    <div>
-      <div className="weather-wrapper">
-        <div className="weather-card">
-          <img className="image" src={air} />,
-          <h1>{temperature}</h1>
-          <p>{name}</p>
-        </div>
-      </div>
-      <div className="inputText">
-        <input type="text" onChange={handleChange} value={name} />
-      </div>
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route path="/Image" component={PhotoPage}>
+          </Route>
+          <Route exact path="/">
+          <Dashboard />
+          </Route>
+        </Switch>
+      </Router>
+      
     </div>
   );
 }
-
-export default App;
